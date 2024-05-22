@@ -4,10 +4,13 @@ import plus from "../images/icon-plus.svg";
 import minus from "../images/icon-minus.svg";
 import reply from "../images/icon-reply.svg";
 import Reply from "./Reply";
+import ReplyForm from "./ReplyForm";
 
 function Notification({ id, user, createdAt, content, replies }) {
-  console.log(replies);
   const [number, setNumber] = useState(0);
+  const thisUser = { user: user };
+  const [isReply, setIsReply] = useState(false);
+
   const image = user?.image?.webp;
   return (
     <>
@@ -33,7 +36,10 @@ function Notification({ id, user, createdAt, content, replies }) {
               <p className="text-sm text-GrayishBlue">{createdAt}</p>
             </div>
 
-            <div className="flex gap-2 place-items-center hover:cursor-pointer text-ModerateBlue">
+            <div
+              onClick={() => setIsReply(!isReply)}
+              className="flex gap-2 place-items-center hover:cursor-pointer text-ModerateBlue"
+            >
               <img className="w-[15px] h-[18px]" src={reply} alt="" />
               <h1>Reply</h1>
             </div>
@@ -44,6 +50,14 @@ function Notification({ id, user, createdAt, content, replies }) {
           </div>
         </div>
       </div>
+
+      {isReply ? (
+        <div className="bg-white flex p-4 gap-6 rounded-lg my-4">
+          <ReplyForm {...thisUser} />
+        </div>
+      ) : (
+        ""
+      )}
 
       {replies ? (
         <>
